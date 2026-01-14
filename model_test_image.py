@@ -3,6 +3,8 @@ import onnxruntime as ort
 import numpy as np
 from PIL import Image
 from torchvision import transforms
+import torch.nn.functional as F
+from visualize_predictions import visualize_prediction_plt
 
 # Load and Preprocess Image
 def preprocess_image(image_path):
@@ -56,9 +58,12 @@ model.eval()
 # Predict using PyTorch model
 with torch.no_grad():
     output_pth = model(input_tensor.to(device))
+    probabilities = F.softmax(output_pth, dim=1)
+    confidence_pth = probabilities.max().item()
     pred_pth = torch.argmax(output_pth, dim=1).item()
 
 print("✅ PyTorch Model Prediction:", pred_pth)
+print(f"   Confidence: {confidence_pth:.2%}")
 
 # Load and Predict with ONNX Model
 onnx_session = ort.InferenceSession("traffic_sign_model.onnx")
@@ -75,3 +80,6 @@ if pred_pth == pred_onnx:
     print("Both models predict the same class!")
 else:
     print("Different predictions!")
+
+# Visualize prediction
+visualize_prediction_plt(image_path, pred_pth, confidence_pth)

@@ -4,17 +4,11 @@ import numpy as np
 from PIL import Image
 from torchvision import transforms
 import onnxruntime as ort
+import torch.nn.functional as F
+from visualize_predictions import visualize_batch_predictions, CLASS_NAMES
 
 # Define Class Labels
-class_labels = {
-    0: "Speed limit 20",
-    1: "Speed limit 30",
-    2: "Speed limit 50",
-    3: "Speed limit 60",
-    4: "Speed limit 70",
-    5: "Speed limit 80",
-    # Add more if needed up to class 42
-}
+class_labels = CLASS_NAMES
 
 # Define the Model
 class TrafficSignCNN(torch.nn.Module):
@@ -67,6 +61,10 @@ output_name = ort_session.get_outputs()[0].name
 # Run Predictions on Folder
 test_folder = r"C:\Users\1\Desktop\Sign Test"
 
+image_paths = []
+predictions = []
+confidences = []
+
 for image_file in os.listdir(test_folder):
     if image_file.lower().endswith(('.png', '.jpg', '.jpeg')):
         image_path = os.path.join(test_folder, image_file)
@@ -76,6 +74,8 @@ for image_file in os.listdir(test_folder):
         # PyTorch Prediction
         with torch.no_grad():
             output_pth = model(input_tensor.to(device))
+            probabilities = F.softmax(output_pth, dim=1)
+            confidence = probabilities.max().item()
             pred_pth = torch.argmax(output_pth, dim=1).item()
 
         # ONNX Prediction
@@ -88,9 +88,17 @@ for image_file in os.listdir(test_folder):
 
         # Print results
         print(f"📷 {image_file}")
-        print(f"PyTorch Prediction: {pred_pth} → {label_pth}")
+        print(f"PyTorch Prediction: {pred_pth} → {label_pth} ({confidence:.2%})")
         print(f"ONNX Prediction:    {pred_onnx} → {label_onnx}")
         if pred_pth == pred_onnx:
             print("Match\n")
         else:
             print("Mismatch\n")
+        
+        image_paths.append(image_path)
+        predictions.append(pred_pth)
+        confidences.append(confidence)
+
+# Visualize all predictions
+if image_paths:
+    visualize_batch_predictions(image_paths, predictions, confidences)
