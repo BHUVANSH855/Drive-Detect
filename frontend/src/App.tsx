@@ -62,24 +62,22 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 font-sans selection:bg-blue-100 selection:text-blue-900">
       
-      {/* Navbar */}
-      <header className="fixed top-0 inset-x-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-2 text-white">
-               <Car size={24} />
-            </div>
-            <span className="font-bold text-xl tracking-tight">DriveDetect</span>
+      {/* Floating Navbar */}
+      <header className="z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border border-gray-200 dark:border-gray-800 rounded-2xl shadow-lg mx-auto mt-0 max-w-3xl left-0 right-0 w-[95%] flex items-center justify-between px-6 h-16 sticky top-6">
+        <div className="flex items-center gap-2">
+          <div className="p-2 text-white">
+            <Car size={24} />
           </div>
-          <div className="flex items-center gap-4">
-             <a href="https://github.com/aayush-1709/Drive-Detect" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
-                <Github size={20} />
-             </a>
-          </div>
+          <span className="font-bold text-xl tracking-tight">DriveDetect</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <a href="https://github.com/aayush-1709/Drive-Detect" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors">
+            <Github size={20} />
+          </a>
         </div>
       </header>
 
-      <main className="pt-32 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <main className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         
         {/* Hero Section */}
         <div className="text-center mb-16 space-y-4">
