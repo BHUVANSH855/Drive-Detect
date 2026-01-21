@@ -4,6 +4,7 @@ from PIL import Image
 import io
 import pathlib
 import logging
+import time
 from app.model import TrafficSignModel
 from app.utils import preprocess_image
 
@@ -39,12 +40,15 @@ async def predict(file: UploadFile = File(...)):
         file: Image file upload
     
     Returns:
-        JSON with predictions
+        JSON with predictions and processing time
     """
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="File must be an image")
     
     try:
+        # Record start time
+        start_time = time.time()
+        
         # Read image
         contents = await file.read()
         logger.info(f"Received image: {file.filename}, size: {len(contents)} bytes")
@@ -59,7 +63,14 @@ async def predict(file: UploadFile = File(...)):
         result = model.predict(input_data)
         logger.info(f"Prediction successful")
         
-        return result
+        # Calculate processing time
+        processing_time = time.time() - start_time
+        
+        # Return response with processing time
+        return {
+            "predictions": result["predictions"],
+            "processing_time": round(processing_time, 3)
+        }
     
     except Exception as e:
         logger.error(f"Prediction failed: {str(e)}", exc_info=True)
