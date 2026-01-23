@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
+from fastapi.responses import PlainTextResponse
 import io
 import pathlib
 import logging
@@ -42,6 +43,17 @@ except Exception as e:
 @app.get("/")
 async def root():
     return {"message": "Traffic Sign Classification API"}
+
+
+@app.head("/")
+async def root_head():
+    # Respond to HEAD checks (some monitors use HEAD)
+    return PlainTextResponse(status_code=200)
+
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
 
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
