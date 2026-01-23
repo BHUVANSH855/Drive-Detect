@@ -44,7 +44,9 @@ export function Dashboard() {
     formData.append('file', file);
 
     try {
-      const response = await axios.post<PredictionResponse>('/predict', formData, {
+      const base = import.meta.env.VITE_API_BASE || '';
+      const url = `${base}/predict`;
+      const response = await axios.post<PredictionResponse>(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -7,6 +7,7 @@ import logging
 import time
 from .model import TrafficSignModel
 from .utils import preprocess_image
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -23,9 +24,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Load the model
+# Determine model path and attempt to load it (log existence)
 model_path = pathlib.Path(__file__).parent.parent / "traffic_sign_model.onnx"
-model = TrafficSignModel(str(model_path))
+logger.info(f"Expected model path: {model_path}")
+logger.info(f"Model file exists: {model_path.exists()}")
+
+model = None
+try:
+    if model_path.exists():
+        model = TrafficSignModel(str(model_path))
+        logger.info("Model loaded successfully")
+    else:
+        logger.error("Model file not found at startup")
+except Exception as e:
+    logger.error(f"Failed to load model: {e}", exc_info=True)
 
 @app.get("/")
 async def root():
@@ -60,6 +72,9 @@ async def predict(file: UploadFile = File(...)):
         logger.info(f"Preprocessed data shape: {input_data.shape}, dtype: {input_data.dtype}")
         
         # Predict
+        if model is None:
+            logger.error("Prediction requested but model is not loaded")
+            raise HTTPException(status_code=500, detail="Model not loaded on server")
         result = model.predict(input_data)
         logger.info(f"Prediction successful")
         
@@ -75,3 +90,12 @@ async def predict(file: UploadFile = File(...)):
     except Exception as e:
         logger.error(f"Prediction failed: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+
+
+@app.get("/model-info")
+async def model_info():
+    """Return basic information about the model file on disk."""
+    path = model_path
+    exists = path.exists()
+    size = path.stat().st_size if exists else None
+    return {"model_path": str(path), "exists": exists, "size_bytes": size}
