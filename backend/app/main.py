@@ -5,8 +5,8 @@ import io
 import pathlib
 import logging
 import time
-from app.model import TrafficSignModel
-from app.utils import preprocess_image
+from .model import TrafficSignModel
+from .utils import preprocess_image
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
