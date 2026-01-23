@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+
+how_to_run.txt
 # Distribution / packaging
 .Python
 build/

@@ -44,7 +44,7 @@ const HeroSection: React.FC = () => {
           </button>
           <a
             className="hero-cta secondary"
-            href="https://github.com/adityamangal1/Drive-Detect"
+            href="https://github.com/aayush-1709/Drive-Detect"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View on GitHub"

@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import "./LandingStyles.css";
 
-const GITHUB_URL = "https://github.com/adityamangal1/Drive-Detect";
+const GITHUB_URL = "https://github.com/aayush-1709/Drive-Detect";
 
 const OpenSourceSection: React.FC = () => {
   const starsRef = useRef<HTMLSpanElement>(null!);

@@ -1,3 +1,188 @@
+# 🚗 Drive-Detect
+
+Drive-Detect is an open-source traffic-sign classification project combining model training, export to ONNX, and a FastAPI backend with a React frontend for live demo and visualization. It is useful for experimentation, research, and small-scale deployments to demonstrate real-time traffic sign detection and classification.
+
+**Project goals:**
+- Provide reproducible training and evaluation code for traffic sign classification (GTSRB dataset).
+- Offer both PyTorch and ONNX runtime inference paths for flexible deployment.
+- Ship a developer-friendly backend (FastAPI) and a modern frontend demo (Vite + React + TypeScript).
+
+---
+
+**Repository layout**
+
+- `backend/` — FastAPI application that serves prediction endpoints and loads the ONNX model for inference.
+  - `backend/app/main.py` — API entrypoint
+  - `backend/app/model.py` — ONNX model wrapper
+  - `backend/app/utils.py` — image preprocessing utilities
+- `experimentation/` — training, dataset scripts, and model artifacts
+  - training scripts, visualization helpers, `traffic_sign_model.pth`, `traffic_sign_model.onnx`
+- `frontend/` — React + Vite demo app (TypeScript)
+  - dev server: `npm run dev` (default port 5173)
+  - production build: `npm run build`
+- `test-scripts/` — small utilities to run model inference locally (PyTorch/ONNX), e.g. `predict_image.py` and visualizers.
+- `visualize_predictions.py` — matplotlib/OpenCV helpers to display predictions
+- `requirements.txt` — Python dependencies for backend & experimentation
+
+---
+
+## Quick Start (developer)
+
+Prerequisites:
+- Python 3.8+
+- Node 18+ (for frontend)
+- Git
+
+1) Clone repository
+
+```bash
+git clone https://github.com/aayush-1709/Drive-Detect
+cd Drive-Detect
+```
+
+2) Python environment (recommended)
+
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# macOS / Linux
+# source venv/bin/activate
+pip install -r requirements.txt
+```
+
+3) Backend (local)
+
+- Run the FastAPI backend (development):
+
+```bash
+cd backend
+# From project root this command also works: uvicorn backend.app.main:app --reload --host 0.0.0.0 --port 8000
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+- API docs: http://localhost:8000/docs
+
+4) Frontend (local)
+
+```bash
+cd frontend
+npm install
+npm run dev
+# Open http://localhost:5173 in your browser
+```
+
+By default the frontend proxies `/predict` to `http://127.0.0.1:8000`, so run the backend before using the demo.
+
+---
+
+## Using the CLI test script
+
+Example: annotate a single image using the PyTorch `.pth` model
+
+```bash
+python test-scripts/predict_image.py path/to/your/image.jpg
+```
+
+This script will:
+- load `traffic_sign_model.pth` (expected next to the script)
+- run inference and produce an annotated image in `test-scripts/outputs/result_<image>`
+- print the predicted label and confidence
+
+If you prefer ONNX inference, use scripts that load `traffic_sign_model.onnx` (see `test-scripts/` for examples).
+
+---
+
+## API (Backend)
+
+The backend exposes a prediction endpoint (POST `/predict`) which accepts an uploaded image and returns a JSON with predicted class and confidence. Use `curl` to test:
+
+```bash
+curl -F "file=@path/to/img.jpg" http://localhost:8000/predict
+```
+
+Response example:
+
+```json
+{
+  "predicted_class": 14,
+  "label": "Stop",
+  "confidence": 0.932
+}
+```
+
+---
+
+## Models
+
+- `experimentaton/traffic_sign_model.pth` — PyTorch model checkpoint used for training and local evaluation.
+- `traffic_sign_model.onnx` — exported ONNX model in the repository for fast inference with ONNX Runtime (used by the backend by default).
+
+When deploying, prefer the ONNX model for CPU-based inferencing with smaller runtime overhead.
+
+---
+
+## Deployment notes (Render / general)
+
+Backend (FastAPI):
+- Ensure the service installs `requirements.txt` and starts Uvicorn:
+  - `uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT`
+- Put `traffic_sign_model.onnx` in the expected path or update `backend/app/model.py` to point to the artifact location.
+
+Frontend (static):
+- Build the frontend with `npm run build` and serve the `dist` files using a static host (Render static site, Netlify, Vercel) or serve via the backend using a static file server.
+
+Environment tips:
+- Pin `onnxruntime` to a stable CPU build when deploying to Render.
+- If using GPU instances, install the appropriate `onnxruntime-gpu` and ensure driver compatibility.
+- If Render automatically runs `uvicorn` with a different working directory, set the appropriate `MODEL_PATH` environment variable and update the backend to use it.
+
+---
+
+## Reproducible training / experimentation
+
+Training scripts are in `experimentaton/` — they demonstrate dataset loading (GTSRB), transforms, augmentation, training loop, and saving `.pth` checkpoints. For reproducible runs:
+- Pin versions in `requirements.txt` (I can produce a pinned list compatible with your setup if you want).
+- Use `tensorboard` for monitoring training (scripts already log to TensorBoard in experimentation).
+
+---
+
+## Visualization utilities
+
+- `visualize_predictions.py` — utilities to display a single image (OpenCV or Matplotlib) or a grid of predictions with labels and confidence scores.
+- Use these in notebooks or locally to inspect model outputs before deploying.
+
+---
+
+## Contributing
+
+Contributions are welcome. Suggested workflow:
+- Fork the repo, create a topic branch for your change, and open a PR with a clear description and tests where relevant.
+- Keep changes focused: do not change model weights in PRs unless they are part of a reproducible training run.
+
+---
+
+## License & Acknowledgements
+
+This project is MIT licensed — see the `LICENSE` file.
+
+Built using PyTorch, ONNX Runtime, FastAPI, Vite, and many OSS libraries — see `requirements.txt` and `frontend/package.json` for full details.
+
+---
+
+## Contact
+
+- GitHub: https://github.com/aayush-1709/Drive-Detect
+- LinkedIn: https://www.linkedin.com/in/aayush-sinha-481345230
+
+---
+
+If you'd like, I can also:
+- Pin exact dependency versions in `requirements.txt` and validate a deployment install in a clean environment.
+- Add a `render.yaml` or Dockerfile and a short `deploy.md` that describes deploying the backend+frontend to Render.
+- Generate a minimal example `curl`/Python client for the `/predict` endpoint.
+
+Which follow-up would you like next?
 # 🚗 Drive-Detect: Advanced Traffic Sign Classification System
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -121,7 +306,7 @@ The model classifies 43 traffic sign types including:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/<your-username>/drive-detect.git
+   git clone https://github.com/aayush-1709/Drive-Detect
    cd drive-detect
    ```
 
