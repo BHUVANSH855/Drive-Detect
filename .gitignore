@@ -270,5 +270,6 @@ logs
 
 # Data files
 *.csv
-*.json
+# *.json
 *.pkl
+tsconfig.json
