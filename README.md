@@ -1,6 +1,6 @@
 # 🚗 Drive-Detect
 
-Drive-Detect is an open-source traffic-sign classification project combining model training, export to ONNX, and a FastAPI backend with a React frontend for live demo and visualization. It is useful for experimentation, research, and small-scale deployments to demonstrate real-time traffic sign detection and classification.
+Drive-Detect is a traffic-sign classification project combining model training, export to ONNX, and a FastAPI backend with a React frontend for live demo and visualization. It is useful for experimentation, research, and small-scale deployments to demonstrate real-time traffic sign detection and classification.
 
 **Project goals:**
 - Provide reproducible training and evaluation code for traffic sign classification (GTSRB dataset).
