@@ -44,8 +44,12 @@ export function Dashboard() {
     formData.append('file', file);
 
     try {
-      const base = import.meta.env.VITE_API_BASE || '';
-      const url = `${base}/predict`;
+      // In dev we can rely on Vite's proxy (`/predict` -> localhost backend).
+      // In production we need an absolute backend URL unless the frontend is served by the backend.
+      const base =
+        import.meta.env.VITE_API_BASE ||
+        (import.meta.env.PROD ? 'https://drive-detect-backend.onrender.com' : '');
+      const url = new URL('/predict', base || window.location.origin).toString();
       const response = await axios.post<PredictionResponse>(url, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -54,7 +58,9 @@ export function Dashboard() {
       setPredictions(response.data.predictions);
     } catch (err) {
       console.error(err);
-      setError("Failed to classify image. Please ensure the backend is running.");
+      setError(
+        "Failed to classify image. If deployed, set VITE_API_BASE to your backend URL (e.g. https://drive-detect-backend.onrender.com)."
+      );
     } finally {
       setIsLoading(false);
     }

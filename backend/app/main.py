@@ -26,11 +26,16 @@ app.add_middleware(
 )
 
 # Determine model path (allow override via MODEL_PATH env var) and attempt to load it (log existence)
+# Notes for Render:
+# - CWD is typically the repo root: /opt/render/project/src
+# - Prefer setting MODEL_PATH to a repo-relative path like "backend/traffic_sign_model.onnx"
 env_path = os.environ.get("MODEL_PATH")
 if env_path:
-    model_path = pathlib.Path(env_path)
+    p = pathlib.Path(env_path).expanduser()
+    model_path = p if p.is_absolute() else (pathlib.Path.cwd() / p).resolve()
 else:
-    model_path = pathlib.Path(__file__).parent.parent / "traffic_sign_model.onnx"
+    # Default to backend/traffic_sign_model.onnx (repo layout)
+    model_path = (pathlib.Path(__file__).parent.parent / "traffic_sign_model.onnx").resolve()
 
 logger.info(f"Expected model path: {model_path}")
 logger.info(f"Model file exists: {model_path.exists()}")

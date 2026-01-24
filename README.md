@@ -132,6 +132,13 @@ Backend (FastAPI):
 Frontend (static):
 - Build the frontend with `npm run build` and serve the `dist` files using a static host (Render static site, Netlify, Vercel) or serve via the backend using a static file server.
 
+Render-specific notes:
+- **SPA routes (React Router)**: if you use `BrowserRouter` (this repo does) you must configure your static host to rewrite deep links like `/app` to `index.html`. This repo ships two common config files in `frontend/public/`:
+  - `_redirects` (Netlify-style): `/* /index.html 200`
+  - `static.json` (some static hosts read this): rewrites `/*` -> `/index.html`
+  - On Render you can also set this in the dashboard: add a rewrite rule `/*` → `/index.html`.
+- **Backend URL**: set the frontend env var **`VITE_API_BASE`** to your backend origin, e.g. `https://drive-detect-backend.onrender.com`.
+
 Environment tips:
 - Pin `onnxruntime` to a stable CPU build when deploying to Render.
 - If using GPU instances, install the appropriate `onnxruntime-gpu` and ensure driver compatibility.

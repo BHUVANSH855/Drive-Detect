@@ -1,0 +1,13 @@
+backend (local) - 
+        uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --app-dir backend
+frontend (local) - 
+        cd frontend && npm run dev
+
+Render deploy commands:
+backend (Render Web Service):
+        Build: pip install -r backend/requirements.txt
+        Start: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT
+frontend (Render Static Site):
+        Build: cd frontend && npm ci && npm run build
+        Publish: frontend/dist
+        Env: VITE_API_BASE=https://<your-backend>.onrender.com
