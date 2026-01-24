@@ -35,8 +35,8 @@ export const OpenSource = () => {
                 </motion.div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <StatCard icon={<Star size={24} />} value="120+" label="Stars" />
-                    <StatCard icon={<GitBranch size={24} />} value="45" label="Forks" />
+                    <StatCard icon={<Star size={24} />} value="3" label="Stars" />
+                    <StatCard icon={<GitBranch size={24} />} value="10+" label="Forks" />
                     <StatCard icon={<Terminal size={24} />} value="MIT" label="License" />
                 </div>
             </div>

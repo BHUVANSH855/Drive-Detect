@@ -101,7 +101,7 @@ export function Dashboard() {
              Traffic Sign Recognition
            </h1>
            <p className="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400">
-             Upload a traffic sign image to instantly classify it with our high-precision deep learning model.
+             Upload a traffic sign image to instantly classify it with our high-precision deep learning model. For test images - visit sample_images folder in the GitHub repository.
            </p>
         </div>
 

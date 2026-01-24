@@ -66,14 +66,14 @@ export const Features = () => {
                                 </div>
                                 <h3 className="text-xl font-bold text-white">Detection Engine</h3>
                             </div>
-                            <p className="text-gray-400 mb-8 max-w-md">
+                            <p className="text-gray-400 mb-800 max-w-full">
                                 Using advanced Convolutional Neural Networks to identify traffic signage in complex weather conditions.
                             </p>
 
                             {/* Simulated Scanning Visual */}
                             <div className="flex-1 rounded-xl bg-black/50 border border-white/10 relative overflow-hidden flex items-center justify-center group-hover:shadow-[0_0_30px_rgba(59,130,246,0.1)] transition-shadow">
                                 {/* Moving Scan Line */}
-                                <div className="absolute top-0 bottom-0 w-1 bg-blue-500 shadow-[0_0_20px_#3b82f6] animate-scan-line z-20"></div>
+                                <div className="absolute top-30 bottom-0 w-1 bg-blue-500 shadow-[0_0_20px_#3b82f6] animate-scan-line z-20"></div>
 
                                 <div className="grid grid-cols-3 gap-4 w-3/4 opacity-50 relative">
                                     {[1, 2, 3].map(i => (
