@@ -25,20 +25,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Determine model path and attempt to load it (log existence)
-model_path = pathlib.Path(__file__).parent.parent / "traffic_sign_model.onnx"
+# Determine model path (allow override via MODEL_PATH env var) and attempt to load it (log existence)
+env_path = os.environ.get("MODEL_PATH")
+if env_path:
+    model_path = pathlib.Path(env_path)
+else:
+    model_path = pathlib.Path(__file__).parent.parent / "traffic_sign_model.onnx"
+
 logger.info(f"Expected model path: {model_path}")
 logger.info(f"Model file exists: {model_path.exists()}")
 
 model = None
-try:
-    if model_path.exists():
-        model = TrafficSignModel(str(model_path))
-        logger.info("Model loaded successfully")
-    else:
-        logger.error("Model file not found at startup")
-except Exception as e:
-    logger.error(f"Failed to load model: {e}", exc_info=True)
+def load_model():
+    global model
+    try:
+        if model_path.exists():
+            model = TrafficSignModel(str(model_path))
+            logger.info("Model loaded successfully")
+        else:
+            model = None
+            logger.error("Model file not found at startup")
+    except Exception as e:
+        model = None
+        logger.error(f"Failed to load model: {e}", exc_info=True)
+
+# Initial load
+load_model()
 
 @app.get("/")
 async def root():
@@ -111,3 +123,12 @@ async def model_info():
     exists = path.exists()
     size = path.stat().st_size if exists else None
     return {"model_path": str(path), "exists": exists, "size_bytes": size}
+
+
+@app.post("/reload-model")
+async def reload_model():
+    """Attempt to reload the model from disk (useful after uploading model file)."""
+    load_model()
+    path = model_path
+    exists = path.exists()
+    return {"model_path": str(path), "exists": exists, "model_loaded": model is not None}
