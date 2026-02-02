@@ -1,43 +1,78 @@
-
 import { useState, useEffect } from 'react';
 import { ArrowUp } from 'lucide-react';
 
 export default function ScrollToTop() {
-    const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-    // Toggle visibility
-    const toggleVisibility = () => {
-        if (window.scrollY > 300) {
-            setIsVisible(true);
-        } else {
-            setIsVisible(false);
-        }
+  const toggleVisibility = () => {
+    setIsVisible(window.scrollY > 300);
+  };
+
+  const updateScrollProgress = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (scrollTop / docHeight) * 100;
+    setScrollProgress(scrolled);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      toggleVisibility();
+      updateScrollProgress();
     };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    // Scroll to top
-    const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth',
-        });
-    };
+  if (!isVisible) return null;
 
-    useEffect(() => {
-        window.addEventListener('scroll', toggleVisibility);
-        return () => {
-            window.removeEventListener('scroll', toggleVisibility);
-        };
-    }, []);
+  // Circle settings
+  const radius = 24;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
 
-    if (!isVisible) return null;
+  return (
+    <button
+      onClick={scrollToTop}
+      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:bg-emerald-600 transition-all duration-300 hover:-translate-y-1 focus:outline-none flex items-center justify-center"
+      aria-label="Scroll to top"
+    >
+      {/* SVG Circle Progress */}
+      <svg
+        className="absolute inset-0 rotate-[-90deg]"
+        width="56"
+        height="56"
+        viewBox="0 0 56 56"
+      >
+        <circle
+          cx="28"
+          cy="28"
+          r={radius}
+          stroke="white"
+          strokeWidth="4"
+          fill="transparent"
+          strokeOpacity="0.2"
+        />
+        <circle
+          cx="28"
+          cy="28"
+          r={radius}
+          stroke="white"
+          strokeWidth="4"
+          fill="transparent"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-200"
+        />
+      </svg>
 
-    return (
-        <button
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 p-3 rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:bg-emerald-600 transition-all duration-300 hover:-translate-y-1 focus:outline-none animate-fadeIn group"
-            aria-label="Scroll to top"
-        >
-            <ArrowUp size={24} className="group-hover:scale-110 transition-transform duration-200" />
-        </button>
-    );
+      <ArrowUp size={24} className="relative z-10" />
+    </button>
+  );
 }
