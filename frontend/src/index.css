@@ -101,3 +101,13 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
+/* Global light / dark theme handling */
+html {
+  background-color: #ffffff;
+  color: #111827; /* gray-900 */
+}
+
+html.dark {
+  background-color: #020202;
+  color: #e5e7eb; /* gray-200 */
+}
