@@ -1,60 +1,160 @@
-import { Car, Github, Twitter, Linkedin } from 'lucide-react';
+import { Car, Github, Linkedin, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export const Footer = () => {
-    return (
-        <footer className="bg-[#020202] border-t border-white/5 pt-20 pb-10">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+const Footer = (): JSX.Element => {
+  return (
+    <footer className="bg-[#020202] border-t border-white/5 pt-20 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    <div className="col-span-1 md:col-span-2">
-                        <Link to="/" className="flex items-center gap-2 mb-6">
-                            <div className="text-blue-600">
-                                <Car size={24} />
-                            </div>
-                            <span className="font-bold text-2xl tracking-tight text-white">
-                                Drive<span className="text-blue-600">Detect</span>
-                            </span>
-                        </Link>
-                        <p className="text-gray-500 text-sm leading-relaxed max-w-sm">
-                            Empowering autonomous systems with real-time computer vision capabilities.
-                            Built for speed, accuracy, and the open road.
-                        </p>
-                    </div>
+        {/* Main Footer Row */}
+        <div className="flex flex-col md:flex-row md:flex-nowrap gap-12 mb-16 text-center md:text-left">
 
-                    <div>
-                        <h3 className="font-bold text-white mb-6">System</h3>
-                        <ul className="space-y-4 text-sm text-gray-500">
-                            <li><a href="#features" className="hover:text-blue-500 transition-colors">Capabilities</a></li>
-                            <li><a href="#about" className="hover:text-blue-500 transition-colors">Neural Architecture</a></li>
-                            <li><Link to="/app" className="hover:text-blue-500 transition-colors">Live Demo</Link></li>
-                        </ul>
-                    </div>
+          {/* 1. Brand — 30% */}
+          <div className="md:w-[30%] shrink-0">
+            <Link
+              to="/"
+              className="flex items-center gap-2 mb-6 justify-center md:justify-start"
+            >
+              <Car size={24} className="text-blue-600" />
+              <span className="font-bold text-2xl tracking-tight text-white">
+                Drive<span className="text-blue-600">Detect</span>
+              </span>
+            </Link>
 
-                    <div>
-                        <h3 className="font-bold text-white mb-6">Connect</h3>
-                        <div className="flex gap-4">
-                            <a href="https://github.com/aayush-1709/Drive-Detect" className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors">
-                                <Github size={20} />
-                            </a>
-                            
-                            <a href="https://www.linkedin.com/in/aayush-sinha-481345230" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition-colors">
-                                <Linkedin size={20} />
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <p className="text-gray-500 text-sm leading-relaxed max-w-sm">
+              Empowering autonomous systems with real-time computer vision
+              capabilities.
+            </p>
+          </div>
 
-                <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center">
-                    <p className="text-xs text-gray-600 font-mono">
-                        © 2026 DRIVE DETECT / OPEN SOURCE INITIATIVE
-                    </p>
-                    <div className="flex gap-8 mt-4 md:mt-0 text-xs text-gray-600 font-mono">
-                        <a href="#" className="hover:text-white transition-colors">PRIVACY_PROTOCOL</a>
-                        <a href="#" className="hover:text-white transition-colors">TERMS_OF_USE</a>
-                    </div>
-                </div>
+          {/* 2. Quick Links — 15% */}
+          <div className="md:w-[15%] shrink-0">
+            <h3 className="font-bold text-white mb-6">Quick Links</h3>
+            <ul className="space-y-4 text-sm text-gray-500">
+              <li>
+                <Link to="/" className="hover:text-blue-500 transition">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-blue-500 transition">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link to="/open-source" className="hover:text-blue-500 transition">
+                  Open Source
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* 3. System — 15% */}
+          <div className="md:w-[15%] shrink-0">
+            <h3 className="font-bold text-white mb-6">System</h3>
+            <ul className="space-y-4 text-sm text-gray-500">
+              <li>
+                <a href="#features" className="hover:text-blue-500 transition">
+                  Capabilities
+                </a>
+              </li>
+              <li>
+                <a href="#about" className="hover:text-blue-500 transition">
+                  Neural Architecture
+                </a>
+              </li>
+              <li>
+                <Link to="/app" className="hover:text-blue-500 transition">
+                  Live Demo
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* 4. Support — 15% */}
+          <div className="md:w-[15%] shrink-0">
+            <h3 className="font-bold text-white mb-6">Support</h3>
+            <ul className="space-y-4 text-sm text-gray-500">
+              <li>
+                <Link to="/contact" className="hover:text-blue-500 transition">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link to="/feedback" className="hover:text-blue-500 transition">
+                  Feedback
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/aayush-1709/Drive-Detect/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-500 transition"
+                >
+                  Report Issue
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* 5. Connect — 25% */}
+          <div className="md:w-[25%] shrink-0">
+            <h3 className="font-bold text-white mb-6">Connect</h3>
+            <div className="flex gap-4 justify-center md:justify-start">
+              <a
+                href="https://github.com/aayush-1709/Drive-Detect"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition"
+                aria-label="GitHub"
+              >
+                <Github size={20} />
+              </a>
+
+              <a
+                href="#"
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition"
+                aria-label="X (Twitter)"
+              >
+                <X size={20} />
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/aayush-sinha-481345230"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-white transition"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={20} />
+              </a>
             </div>
-        </footer>
-    );
+          </div>
+
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row gap-4 md:gap-0 justify-between items-center text-center md:text-left">
+          <p className="text-xs text-gray-600 font-mono">
+            © 2026 DRIVE DETECT / OPEN SOURCE INITIATIVE
+          </p>
+
+          <div className="flex gap-8 text-xs text-gray-600 font-mono">
+            <Link to="/privacy-policy" className="hover:text-white transition">
+              PRIVACY_POLICY
+            </Link>
+            <Link to="/terms" className="hover:text-white transition">
+              TERMS_OF_USE
+            </Link>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
 };
+
+/* Support both import styles */
+export { Footer };
+export default Footer;
