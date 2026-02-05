@@ -80,11 +80,19 @@ const Footer = (): JSX.Element => {
                   Contact
                 </Link>
               </li>
+
+              {/* ✅ Feedback now goes to GitHub Issues */}
               <li>
-                <Link to="/feedback" className="hover:text-blue-500 transition">
+                <a
+                  href="https://github.com/aayush-1709/Drive-Detect/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-500 transition"
+                >
                   Feedback
-                </Link>
+                </a>
               </li>
+
               <li>
                 <a
                   href="https://github.com/aayush-1709/Drive-Detect/issues"
@@ -155,6 +163,5 @@ const Footer = (): JSX.Element => {
   );
 };
 
-/* Support both import styles */
 export { Footer };
 export default Footer;
