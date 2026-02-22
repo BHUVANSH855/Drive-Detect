@@ -83,14 +83,9 @@ const Footer = (): JSX.Element => {
 
               {/* ✅ Feedback now goes to GitHub Issues */}
               <li>
-                <a
-                  href="https://github.com/aayush-1709/Drive-Detect/issues"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-blue-500 transition"
-                >
+                <Link to="/feedback" className="hover:text-blue-500 transition">
                   Feedback
-                </a>
+                </Link>
               </li>
 
               <li>
