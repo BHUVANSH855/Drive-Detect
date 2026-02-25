@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   // Scroll effect (unchanged)
   useEffect(() => {
@@ -23,6 +24,25 @@ export const Navbar = () => {
       document.documentElement.classList.add('dark');
       setIsDark(true);
     }
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['features', 'about', 'opensource'];
+    
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom >= 120) {
+            setActiveSection(section);
+          }
+        }
+      }
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Toggle dark / light mode
@@ -70,20 +90,28 @@ export const Navbar = () => {
 
         {/* Links */}
         <div className="hidden sm:flex items-center gap-1">
-          {['Features', 'About', 'Open Source'].map((item) => (
-            <a
-              key={item}
-              href={`#${item.toLowerCase().replace(' ', '')}`}
-              className="
-                px-4 py-2 rounded-lg text-sm font-medium transition-all
-                text-gray-700 dark:text-gray-400
-                hover:bg-black/5 dark:hover:bg-white/5
-                hover:text-black dark:hover:text-white
-              "
-            >
-              {item}
-            </a>
-          ))}
+          {['Features', 'About', 'Open Source'].map((item) => {
+            const sectionId = item.toLowerCase().replace(' ', '');
+
+            return (
+              <a
+                key={item}
+                href={`#${sectionId}`}
+                className={`
+                  px-4 py-2 rounded-lg text-sm font-medium transition-all
+                  ${
+                    activeSection === sectionId
+                      ? 'text-blue-500 border-b-2 border-blue-500'
+                      : 'text-gray-700 dark:text-gray-400'
+                  }
+                  hover:bg-black/5 dark:hover:bg-white/5
+                  hover:text-black dark:hover:text-white
+                `}
+              >
+                {item}
+              </a>
+            );
+          })}
         </div>
 
         <div className="w-px h-6 bg-black/10 dark:bg-white/10 mx-2 hidden sm:block" />
