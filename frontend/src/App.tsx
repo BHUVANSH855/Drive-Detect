@@ -9,6 +9,7 @@ import Feedback from './pages/Feedback';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import OpenSource from './pages/OpenSource';
+import NotFound from './pages/NotFound';
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -26,6 +27,7 @@ function App(): JSX.Element {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/open-source" element={<OpenSource />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <ScrollToTop />
