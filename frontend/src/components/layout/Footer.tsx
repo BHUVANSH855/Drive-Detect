@@ -7,10 +7,9 @@ const Footer = (): JSX.Element => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Main Footer Row */}
-        <div className="flex flex-col md:flex-row md:flex-nowrap gap-12 mb-16 text-center md:text-left">
-
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-12 mb-16 text-center md:text-left">
           {/* 1. Brand — 30% */}
-          <div className="md:w-[30%] shrink-0">
+          <div>
             <Link
               to="/"
               className="flex items-center gap-2 mb-6 justify-center md:justify-start"
@@ -28,7 +27,7 @@ const Footer = (): JSX.Element => {
           </div>
 
           {/* 2. Quick Links — 15% */}
-          <div className="md:w-[15%] shrink-0">
+          <div>
             <h3 className="font-bold text-white mb-6">Quick Links</h3>
             <ul className="space-y-4 text-sm text-gray-500">
               <li>
@@ -50,7 +49,7 @@ const Footer = (): JSX.Element => {
           </div>
 
           {/* 3. System — 15% */}
-          <div className="md:w-[15%] shrink-0">
+          <div>
             <h3 className="font-bold text-white mb-6">System</h3>
             <ul className="space-y-4 text-sm text-gray-500">
               <li>
@@ -72,7 +71,7 @@ const Footer = (): JSX.Element => {
           </div>
 
           {/* 4. Support — 15% */}
-          <div className="md:w-[15%] shrink-0">
+          <div >
             <h3 className="font-bold text-white mb-6">Support</h3>
             <ul className="space-y-4 text-sm text-gray-500">
               <li>
@@ -102,7 +101,7 @@ const Footer = (): JSX.Element => {
           </div>
 
           {/* 5. Connect — 25% */}
-          <div className="md:w-[25%] shrink-0">
+          <div>
             <h3 className="font-bold text-white mb-6">Connect</h3>
             <div className="flex gap-4 justify-center md:justify-start">
               <a
@@ -143,8 +142,7 @@ const Footer = (): JSX.Element => {
             © 2026 DRIVE DETECT / OPEN SOURCE INITIATIVE
           </p>
 
-          <div className="flex gap-8 text-xs text-gray-600 font-mono">
-            <Link to="/privacy-policy" className="hover:text-white transition">
+<div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-xs text-gray-600 font-mono">            <Link to="/privacy-policy" className="hover:text-white transition">
               PRIVACY_POLICY
             </Link>
             <Link to="/terms" className="hover:text-white transition">
