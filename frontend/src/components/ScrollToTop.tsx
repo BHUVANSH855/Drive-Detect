@@ -4,45 +4,43 @@ import { ArrowUp } from 'lucide-react';
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-
-  const toggleVisibility = () => {
-    setIsVisible(window.scrollY > 300);
-  };
-
-  const updateScrollProgress = () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrolled = (scrollTop / docHeight) * 100;
-    setScrollProgress(scrolled);
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const [isNearFooter, setIsNearFooter] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      toggleVisibility();
-      updateScrollProgress();
+      setIsVisible(window.scrollY > 300);
+
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = (scrollTop / docHeight) * 100;
+      setScrollProgress(scrolled);
+
+      const footer = document.querySelector('footer');
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        setIsNearFooter(footerRect.top < window.innerHeight);
+      }
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   if (!isVisible) return null;
 
-  // Circle settings
   const radius = 24;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
+  const strokeDashoffset =
+    circumference - (scrollProgress / 100) * circumference;
 
   return (
     <button
-      onClick={scrollToTop}
-      className="fixed bottom-8 right-8 z-50 w-14 h-14 rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:bg-emerald-600 transition-all duration-300 hover:-translate-y-1 focus:outline-none flex items-center justify-center"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      className={`fixed right-6 md:right-8 z-50 w-14 h-14 rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30 hover:bg-emerald-600 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center
+  ${isNearFooter ? 'bottom-24 md:bottom-16' : 'bottom-8 md:bottom-10'}`}
       aria-label="Scroll to top"
     >
-      {/* SVG Circle Progress */}
       <svg
         className="absolute inset-0 rotate-[-90deg]"
         width="56"
