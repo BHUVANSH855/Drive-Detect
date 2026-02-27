@@ -10,6 +10,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import OpenSource from './pages/OpenSource';
 import NotFound from './pages/NotFound';
+import Capabilities from "./pages/Capabilities";
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -28,6 +29,7 @@ function App(): JSX.Element {
         <Route path="/terms" element={<Terms />} />
         <Route path="/open-source" element={<OpenSource />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/capabilities" element={<Capabilities />} />
       </Routes>
 
       <ScrollToTop />
