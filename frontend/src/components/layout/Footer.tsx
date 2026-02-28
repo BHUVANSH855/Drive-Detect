@@ -53,9 +53,9 @@ const Footer = (): JSX.Element => {
             <h3 className="font-bold text-white mb-6">System</h3>
             <ul className="space-y-4 text-sm text-gray-500">
               <li>
-                <Link to="/capabilities" className="hover:text-blue-500 transition">
-  Capabilities
-</Link>
+                <a href="#features" className="hover:text-blue-500 transition">
+                  Capabilities
+                </a>
               </li>
               <li>
                 <Link to="/neural-architecture" className="hover:text-blue-500 transition">

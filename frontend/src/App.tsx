@@ -10,7 +10,6 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import Terms from './pages/Terms';
 import OpenSource from './pages/OpenSource';
 import NotFound from './pages/NotFound';
-import Capabilities from "./pages/Capabilities";
 
 import ScrollToTop from './components/ScrollToTop';
 import NeuralArchitecture from "./pages/NeuralArchitecture";
